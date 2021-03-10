@@ -1,6 +1,5 @@
 <?php
 echo "DONE";
 phpinfo();
-    google
-    
+   echo "hiiiii";
 ?>
