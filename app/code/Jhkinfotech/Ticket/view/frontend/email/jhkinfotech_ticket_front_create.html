@@ -1,0 +1,151 @@
+<!--@subject {{trans "Created :"}} {{config path="general/store_information/name"}} - {{var subject}}  @-->
+<!--@subject {{trans "Header"}} @-->
+<!--@vars {
+"var logo_url":"Email Logo Image URL",
+"var logo_alt":"Email Logo Alt Text",
+"var logo_height":"Email Logo Image Height",
+"var logo_width":"Email Logo Image Width",
+"var template_styles|raw":"Template CSS"
+} @-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        {{var template_styles|raw}}
+
+        {{css file="css/email.css"}}
+    </style>
+</head>
+<body>
+{{inlinecss file="css/email-inline.css"}}
+
+<!-- Begin wrapper table -->
+<table class="wrapper" width="100%" style="background-color: #cccccc; padding-top: 30px; padding-bottom: 30px;" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="wrapper-inner" align="center">
+            <table class="main" width="100%" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="header" align="center">
+                        <table width="100%" style="max-width: 660px; background-color: #ffffff;" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color: #f5f5f5; text-align: center; padding: 20px; border-top: solid 4px #999999; border-bottom: solid 1px #e0e0e0;">
+                                        <a class="logo" href="{{store url=""}}">
+                                            <img
+                                                {{if logo_width}}
+                                                    width="{{var logo_width}}"
+                                                {{else}}
+                                                    width="180"
+                                                {{/if}}
+
+                                                {{if logo_height}}
+                                                    height="{{var logo_height}}"
+                                                {{/if}}
+
+                                                src="{{var logo_url}}"
+                                                alt="{{var logo_alt}}"
+                                                border="0"
+                                            />
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- Header End -->
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="main-content" align="center">
+                        <table width="100%" style="max-width: 660px; background-color: #ffffff;" cellpadding="0" cellspacing="0">
+                            <tr class="email-intro">
+                                <td valign="top">
+
+                                    <table width="100%" style="padding: 20px 25px;" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 10px 0px;" colspan="2">  
+                                                    <span style="display: block; width: 100%; font-weight: bold; text-transform: capitalize;">The ticket has been created.</span>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">Ticket Subject:</span>
+                                                    {{var subject}}
+                                                </td>
+                                                <td style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">Customer Name:</span>
+                                                    {{var customer_name}}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">Email:</span>
+                                                    {{var customeremail}}
+                                                </td>
+                                                <td style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">Status:</span>
+                                                    {{var status}}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">Priority:</span>
+                                                    {{var priority}}
+                                                </td>
+                                                <td style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">Department:</span>
+                                                    {{var department}}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2" style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">Message:</span>
+                                                    {{var message}}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2" style="padding: 10px 0px;">
+                                                    <span style="display: block; width: 100%; font-weight: bold;">{{trans "Regards."}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                </td>
+                            </tr>
+                        </table>
+<!--@subject {{trans "Footer"}} @-->
+<!--@vars {
+"var store.frontend_name":"Store Name"
+} @-->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="footer" align="center">
+                        <table width="100%" style="max-width: 660px; background-color: #f5f5f5; border-top: solid 2px #e0e0e0;" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p class="closing" style="margin: 0px; padding: 20px; text-align: center; font-size: 16px; font-weight: bold;">{{trans "©2021 %store_name" store_name=$store.frontend_name}}, {{trans "All Rights Reserved."}}</p>                                     
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!-- End wrapper table -->
+</body>

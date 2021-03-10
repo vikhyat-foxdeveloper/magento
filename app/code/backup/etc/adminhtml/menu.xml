@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Jhkinfotech_Ticket::ticket_content" title="JHK" module="Jhkinfotech_Ticket" sortOrder="50" resource="Jhkinfotech_Ticket::ticket_content" />
+
+        <add id="Jhkinfotech_Ticket::ticket_title" title="Support Ticket" module="Jhkinfotech_Ticket" sortOrder="0"  resource="Jhkinfotech_Ticket::ticket_title" parent="Jhkinfotech_Ticket::ticket_content" />
+
+        <add id="Jhkinfotech_Ticket::viewticket" title="View Tickets" module="Jhkinfotech_Ticket" sortOrder="200" parent="Jhkinfotech_Ticket::ticket_title" action="ticket/post" resource="Jhkinfotech_Ticket::viewticket"/>
+        
+        <add id="Jhkinfotech_Ticket::post" title="Create Ticket" module="Jhkinfotech_Ticket" sortOrder="300" parent="Jhkinfotech_Ticket::ticket_title" action="ticket/post/edit" resource="Jhkinfotech_Ticket::post"/>
+
+        <add id="Jhkinfotech_Ticket::settings" title="Settings" module="Jhkinfotech_Ticket" sortOrder="400" parent="Jhkinfotech_Ticket::ticket_title" action="admin/system_config/edit/section/ticket" resource="Jhkinfotech_Ticket::settings"/>
+
+        <add id="Jhkinfotech_Ticket::department" title="Manage Departments" module="Jhkinfotech_Ticket" sortOrder="500" parent="Jhkinfotech_Ticket::ticket_title" action="ticket/department" resource="Jhkinfotech_Ticket::department"/>
+
+        <add id="Jhkinfotech_Ticket::ticket" title="ticket Menu" module="Jhkinfotech_Ticket" sortOrder="1" parent="Jhkinfotech_Ticket::ticket_title" action="ticket/ticket/index" resource="Jhkinfotech_Ticket::ticket" dependsOnConfig="ticket/settings/enable"/>
+      
+    </menu>
+</config>

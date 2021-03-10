@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+    	<ticket>
+            <general>
+                <enable>1</enable>
+                <display_title>Support Desk</display_title>
+                <jhkinfotech_ticket_front_create>ticket_general_jhkinfotech_ticket_front_create</jhkinfotech_ticket_front_create>
+                <jhkinfotech_ticket_front_reply>ticket_general_jhkinfotech_ticket_front_reply</jhkinfotech_ticket_front_reply>
+                <jhkinfotech_ticket_reply_admin>ticket_general_jhkinfotech_ticket_reply_admin</jhkinfotech_ticket_reply_admin>
+            </general>
+        </ticket>
+    </default>
+</config>

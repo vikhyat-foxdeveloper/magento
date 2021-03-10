@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © 2020 jhkinfotechcommerce. All rights reserved.
+ */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$value = $objectManager->get('Magento\Backend\Model\Auth\Session')->getUser()->getEmail();
+
+?>
+<script>
+    requirejs(['jquery', 'ticket'], function($){
+        $(document).ready(function(){            
+            if($("#ticket_general_admin_email").val() == ''){
+                var admin_value = '<?= $value; ?>';
+                $("#ticket_general_admin_email").val(admin_value);
+            }
+            setInterval(function() {
+                var urlajax = '<?= $block->getUrl("ticket/result/notifications") ?>';
+                var param = 'ajax=1';
+                $.ajax({
+                    url: urlajax,
+                    type: "POST",
+                    data: { param:param },
+                    dataType: 'json',
+                    success: function(data) {
+                    $("#jhkinfotech-ticket-alert").remove();
+                    $('.item-viewticket').find('a').append(data);
+                    $('#jhkinfotech-ticket-alert').css("color", "white");                    
+                    }
+                })
+                .done(function(response){
+                    // console.log(response);
+                    })
+                .fail(function(){
+                    // console.log('fail');
+                });
+            }, 4000);
+        });
+});
+</script>

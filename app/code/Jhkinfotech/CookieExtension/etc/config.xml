@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <cookieextension>
+            <general>
+                <enabledisable>1</enabledisable> 
+                <type>v-bar</type>
+                <bar_position>v-bottom</bar_position>
+                <box_position>v-bottom-right</box_position>
+                <behaviour>365</behaviour>
+                <auto_hide_after>0</auto_hide_after>
+                <auto_accept>0</auto_accept>
+                <expire>0</expire>
+            </general>
+            <content>
+                <show>default</show>
+				<display_title>0</display_title>
+                <custom_message>This website uses cookies, we do this to offer you the best possible experience while using our website. By continuing to browse the site you agree to our PRIVACY POLICY</custom_message>
+                <model_title>Cookie Notice</model_title>
+                <custom_accept>Agree and Continue Browsing</custom_accept>
+                <deny_button>0</deny_button>
+				<custom_close>Close</custom_close>           
+            </content>
+			<display_style>
+                <font_family>vollkorn</font_family>
+                <model_text_align>left</model_text_align>
+                <model_title_size>medium</model_title_size>
+                <model_message_size>medium</model_message_size>
+            </display_style>
+			<design_style>
+                <header_background_opacity>1</header_background_opacity>
+				<header_background_color>#123b69</header_background_color>				
+                <header_font_color>#FFFFFF</header_font_color>
+                <accept_button_background_color>#8bc555</accept_button_background_color>
+                <close_button_background_color>#FFCA30</close_button_background_color>	
+                <close_button_color>#000000</close_button_color>
+                <accept_button_color>#ffffff</accept_button_color>
+                <model_title_color>#ffffff</model_title_color>
+			</design_style>
+        </cookieextension>
+    </default>
+</config>

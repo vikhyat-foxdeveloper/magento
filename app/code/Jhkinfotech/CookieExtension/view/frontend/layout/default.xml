@@ -1,0 +1,17 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	 <head>
+          <css src="Jhkinfotech_CookieExtension::css/cookieextension.css" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <referenceContainer name="head.additional">
+            <block class="Jhkinfotech\CookieExtension\Block\CookieExtension" name="jhkinfotech_font" template="Jhkinfotech_CookieExtension::font.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="after.body.start">
+            <block class="Jhkinfotech\CookieExtension\Block\CookieExtension" name="jhkinfotech_cookieextension_top" before="-" template="Jhkinfotech_CookieExtension::widget.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+           <block class="Jhkinfotech\CookieExtension\Block\CookieExtension" name="jhkinfotech_cookieextension_bottom" after="-" template="Jhkinfotech_CookieExtension::widget.phtml" />
+        </referenceContainer>
+    </body>
+</page>

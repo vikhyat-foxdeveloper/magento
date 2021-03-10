@@ -1,0 +1,73 @@
+<?php
+/**
+ * Copyright © 2020 jhkinfotechcommerce. All rights reserved.
+ */
+?>
+<div class="textRight pb-3">
+    <a class="btn2 btnCreate" href="<?= $block->getBaseUrl().'ticket/index/index'; ?>">
+        <?= __('Create Ticket'); ?>
+    </a>
+</div>
+<?php
+$collection = $this->getTicketCollection();
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+?>
+
+<table class="data table hdmx__tickets-table">    
+    <thead>
+        <tr>
+            <th scope="col" class="col subject"><?= __('Subject') ?></th>
+            <th scope="col" class="col status"><?= __('Sku/Order Number') ?></th>
+            <th scope="col" class="col department"><?= __('Department') ?></th>           
+            <th scope="col" class="col status textCenter"><?= __('Status') ?></th>
+            <th scope="col" class="col activity textRight"><?= __('Last Activity') ?></th>
+        </tr>
+    </thead>
+    <?php foreach ($collection as $key => $ticketdata): ?>
+        <?php if ($block->escapeHtml($ticketdata->getCustomer_id())  == $customerSession->getCustomer()->getId()) {
+            if ($ticketdata->getProductsku() == '') {
+                $getproductsku = '-';
+            } else {
+                $getproductsku = $ticketdata->getProductsku();
+            }
+            ?>
+    <tbody>
+        <tr>                              
+            <td data-th="Subject" class="subject-<?= $ticketdata->getPost_id() ?>">
+                <a href="<?= $block->getBaseUrl().'ticket/index/frontreply/post_id/'.$ticketdata->getPost_id(); ?>"><?= $block->escapeHtml($ticketdata->getTitle()) ?></a>
+            </td>
+            <td data-th="Productsku" class="productsku"><?= $block->escapeHtml($getproductsku) ?></td>
+            <td data-th="Department" class="department"><?= $block->escapeHtml($ticketdata->getDepartment()) ?></td>
+            <td data-th="Status" class="status textCenter">
+                <span class="jhkinfotech__status jhkinfotech-<?= $block->escapeHtml($ticketdata->getStatus()) ?>"><?= $block->escapeHtml($ticketdata->getStatus()) ?></span> 
+            </td>
+            <td data-th="Last Activity" class="activity textRight"><?= date('M d,Y H:i:s A', strtotime($ticketdata->getUpdated_at())) ?>
+            </td>
+        </tr>        
+    </tbody>    
+    <?php }?>    
+        <?php endforeach; ?>        
+</table>
+<?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom Jhkinfotechpagenation"><?= $block->getPagerHtml(); ?></div>    
+<?php else: ?>
+    <div class="message info empty"><span><?=  __('You have No any record.'); ?></span></div>
+<?php endif ?>
+
+<?php
+
+$replydata = $this->getreplydata();
+foreach ($replydata as $key => $ticdata) {
+    if ($ticdata->getPost_id()) {
+        if ($ticdata->getRead_status() == 'unread') {
+            
+            echo  '<style type="text/css">
+                    .subject-'.$ticdata->getPost_id().'{ font-weight: bold; }
+                </style>';
+
+        }
+    }
+}
+?>

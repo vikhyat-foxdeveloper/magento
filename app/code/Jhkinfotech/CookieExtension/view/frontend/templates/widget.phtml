@@ -1,0 +1,149 @@
+<?php
+/**
+ * @copyright  Copyright (c) 2021 Jhkinfotech  (https://jhkinfotech.com/)
+ */
+?>
+<?php if ($block->enableDisable()): ?>
+    <?php
+    if ($block->getType() =='v-bar') {
+        $cwidth ='93%';
+    } else {
+        $cwidth ='auto';
+    }
+    $cfontFamily = $block->headerTextFontFamily();
+    $cfontFamily = str_replace('+', ' ', $cfontFamily);
+    $cfontFamily = "font-family:'" . $cfontFamily . "';";
+    
+    $cget_type = $block->getType();
+    
+    $modelMessageSize = $block->modelMessageSize();
+    $modelMessageSize = str_replace('+', ' ', $modelMessageSize);
+    $modelMessageSize = "font-size:" . $modelMessageSize . "px;";
+    
+    ?>
+    <?php if ($cget_type=="v-bar") { ?>
+<!-- Bar View -->
+<div id="j-cookieextension" class="barView <?= $cget_type; ?> <?= $cget_type =='v-bar' ? $block->getBarPosition() : $block->getBoxPosition(); ?>" 
+style="box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.47);display:none;text-align:<?= $block->modelTextAlign(); ?>;
+                 background-color:<?= $block->headerBackgroundColor(); ?>; opacity: <?= $block->headerBackgroundOpacity(); ?>; color:<?= $block->headerFontColor(); ?>;" >
+        <?php  if ($block->getType() == 'v-box') { ?>
+  <div class="j-message title" style="font-weight:normal;padding-bottom:10px;width:<?= $cwidth ?>;font-size:<?= $block->modelTitleFontSize() ?>px;color:<?= $block->modelTitleColor(); ?>;<?= $cfontFamily ?>"> <span class="titlecookie">
+            <?= $block->modelTitle(); ?>
+    </span> </div>
+  <?php } ?>
+  <div id="message-custom-css" class="j-message custom-css codata" style="<?= $cfontFamily ?> <?= $modelMessageSize ?>" >
+        <?php if ($block->getShow() == 'default'):
+                echo __("This website use cookies to ensure you get the best user experience on our website.");
+            else:
+                echo __($block->getCustomMessage());
+            endif;
+            ?>      
+  </div>
+  <div id="action-custom-css" class="j-actions custom-css btnsMain"> <a href="javascript:cookieNoticeAccept();" class="j-button j-accept agreeBtn" style="background-color:<?= $block->acceptButtonBackgroundColor() ?>;color:<?= $block->acceptButtonColor() ?>">
+        <?php if ($block->getCustomAccept() == ''):
+            echo __("Accept");
+            else:
+                echo __($block->getCustomAccept());
+            endif;
+            ?>
+    </a>
+        <?php if ($block->getEnableCustomDecline()=='1') { ?>
+    <a href="javascript:cookieClose();" class="j-button j-decline closeBtn" style="background-color:<?= $block->closeButtonBackgroundColor() ?>;color:<?= $block->closeButtonColor() ?>">
+            <?= $block->getCustomDecline(); ?>
+    </a>
+    <?php } ?>
+  </div>
+</div>
+<!-- Bar View End --> 
+    <?php } ?>
+
+    <?php if ($cget_type=="v-box") { ?>
+<!-- Box View -->
+<div id="j-cookieextension" class="boxView <?= $cget_type; ?> <?= $cget_type =='v-bar' ? $block->getBarPosition() : $block->getBoxPosition(); ?>" 
+style="box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.47);display:none;text-align:<?= $block->modelTextAlign(); ?>;
+                 background-color:<?= $block->headerBackgroundColor(); ?>; opacity: <?= $block->headerBackgroundOpacity(); ?>; color:<?= $block->headerFontColor(); ?>;">
+  <div class="contain">
+        <?php  if ($block->getType() == 'v-box') { ?>
+    <div class="j-message title" style="font-weight:normal;padding-bottom:10px;width:<?= $cwidth ?>;font-size:<?= $block->modelTitleFontSize() ?>px;color:<?= $block->modelTitleColor(); ?>;<?= $cfontFamily ?>"> <span class="titlecookie">
+            <?= $block->modelTitle(); ?>
+      </span> </div>
+    <?php } ?>
+    <div id="message-custom-css" class="j-message custom-css codata" style="<?= $cfontFamily ?> <?= $modelMessageSize ?>">
+          <?php if ($block->getShow() == 'default'):
+                echo __("This website use cookies to ensure you get the best user experience on our website.");
+                else:
+                    echo $block->getCustomMessage();
+                endif;
+                ?>
+    </div>
+    <div id="action-custom-css" class="j-actions custom-css btnsMain"> <a href="javascript:cookieNoticeAccept();" class="j-button j-accept agreeBtn" style="background-color:<?= $block->acceptButtonBackgroundColor() ?>;color:<?= $block->acceptButtonColor() ?>">
+          <?php if ($block->getCustomAccept() == ''):
+                echo __("Accept");
+            else:
+                echo $block->getCustomAccept();
+            endif;
+            ?>
+      </a>
+          <?php if ($block->getEnableCustomDecline()=='1') { ?>
+      <a href="javascript:cookieClose();" class="j-button j-decline closeBtn" style="background-color:<?= $block->closeButtonBackgroundColor() ?>;color:<?= $block->closeButtonColor() ?>">
+                <?= $block->getCustomDecline(); ?>
+      </a>
+      <?php } ?>
+    </div>
+  </div>
+</div>
+<!-- Box View End -->
+    <?php } ?>
+
+<div id="v-badge" class="v-badge" onClick="showDiv()" style="display:none">Cookie Settings</div>
+<script type="text/javascript">
+        <?php \Magento\Framework\App\ObjectManager::getInstance()->get('Psr\Log\LoggerInterface')->info($block->getBehaviour()); ?>
+        <?php \Magento\Framework\App\ObjectManager::getInstance()->get('Psr\Log\LoggerInterface')->info($block->getAutoExpire()); ?>
+        var behaviour = <?= $block->getBehaviour(); ?>;
+        var expire =<?= $block->getAutoExpire(); ?>;
+        if (expire == 0) {
+            expire = 1;
+        } else {
+            expire =<?= $block->getAutoExpire(); ?>;
+        }
+
+        function showDiv() {
+            document.getElementById('j-cookieextension').style.display = "flex";
+            document.getElementById('v-badge').style.display = 'none';
+        }
+
+        function cookieClose() {
+            document.getElementById('v-badge').style.display = 'block';            
+            document.getElementById('j-cookieextension').style.display = 'none';
+        }
+
+        function cookieNoticeAccept() {
+            if (behaviour) {
+                var d = new Date();
+                d.setTime(d.getTime() + (behaviour + expire * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d;
+                
+            }
+            document.cookie = "cookieextension" + "=" + "true" + ";" + expires + ";path=/";
+            document.getElementById('j-cookieextension').style.display = 'none';            
+        }
+
+        require([
+            'jquery',
+            'mage/cookies'
+        ], function ($) {
+            if (!$.cookie('cookieextension')) document.getElementById('j-cookieextension').style.display = 'flex';
+        });
+
+        <?php if ($block->getAutohide()): ?>
+        setTimeout(function () {
+            document.getElementById('j-cookieextension').style.display = 'none';
+        }, <?= $block->getAutohide() * 1000; ?>);
+        <?php endif; ?>
+        <?php if ($block->getAutoAccept()): ?>
+        setTimeout(function () {
+            cookieNoticeAccept();
+        }, <?= $block->getAutoAccept() * 1000; ?>);
+        <?php endif; ?>
+    </script>
+<?php endif; ?>

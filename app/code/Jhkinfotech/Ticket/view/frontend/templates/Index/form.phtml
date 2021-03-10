@@ -1,0 +1,195 @@
+<?php
+/**
+ * Copyright © 2020 jhkinfotechcommerce. All rights reserved.
+ */
+?>
+<?php
+/**
+ * {{controller}} {{action}} template
+ *
+ * @var $block \Jhkinfotech\Ticket\Block\Index\Index
+ */
+?>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$model=$objectManager->create('Jhkinfotech\Ticket\Model\Department');
+$datacollection=$model->getCollection();
+
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+
+if ($customerSession->isLoggedIn()) {
+    $customerSession->getCustomerId();
+    $customerSession->getCustomerGroupId();
+    $customerSession->getCustomer();
+    $customerSession->getCustomerData();
+    
+    $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+    $storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $storeID       = $storeManager->getStore()->getStoreId();
+
+    ?>
+<form data-mage-init='{"validation": {}}'  enctype="multipart/form-data" class="form ticket" action="<?= /* @noEscape */ $block->getBaseUrl().'ticket/Index/post'; ?>" id="ticket-form"  method="post" 
+data-hasrequired="<?= /* @escapeNotVerified */  __('* Required Fields'); ?>" >
+<!-- <fieldset class="fieldset"> -->
+<legend class="legend"><span><?= /* @escapeNotVerified */  __('Create Ticket'); ?></span></legend><br />
+
+<fieldset class="fieldset">
+
+        <div class="field name required inpBox mb-1 frmFieldFull">
+            <label class="label" for="title"><span>Subject</span></label>
+            <div class="control">
+                    <input name="title" id="title" title="title" value="" class="input-text title" type="text" data-validate='{"required":true}' />
+            </div>
+        </div>
+
+        <div class="field name required inpBox">
+            <label class="label" for="department"><span>Department</span></label>
+            <div class="control">                
+                <select name="department" id="department" class="required-entry">
+                    <option value="">- Select Department -</option>    
+                    <?php foreach ($datacollection as $data1) { ?>
+                    <option value="<?= $block->escapeHtml($data1->getname()) ?>"><?= $block->escapeHtml($data1->getname()) ?></option>
+                    <?php } ?>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="field name required inpBox noSpace">
+            <label class="label" for="priority"><span>Priority</span></label>
+            <div class="control">                
+                <select name="priority" id="priority" class="required-entry">
+                    <option value="">- Select Priority -</option>                        
+                    <option value="Urgent">Urgent</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>               
+                </select>
+            </div>
+        </div>
+
+        <div class="field name required inpBox mb-1">
+            <label class="label" for="customeremail"><span>Customer Email</span></label>
+            <div class="control">
+                        <input name="customeremail" id="customeremail" title="customeremail" value="<?= $customerSession->getCustomer()->getEmail(); ?>" readonly="readonly" class="required-entry input-text" type="text" />
+                        <!-- <div for="title" generated="true" class="blank-error" id="">&nbsp;</div> -->
+            </div>
+        </div>
+
+        <div class="field name inpBox noSpace">
+            <label class="label" for="ccrecipients"><span>CC Recipients</span></label>
+            <div class="control">
+                <input name="ccrecipients" id="ccrecipients" title="ccrecipients" value="" type="email" class="input-text" />
+                <!-- <div for="title" generated="true" class="blank-error" id="">&nbsp;</div> -->
+            </div>
+        </div>
+
+        <div class="field name inpBox noSpace mb-0">
+            <label class="label" for="productsku"><span>SKU/ Order number</span></label>
+            <div class="control">
+                <input name="productsku" id="productsku" title="productsku/ Order " value="" type="text" class="input-text" />
+                <div for="title" generated="true" class="blank-error" id="">&nbsp;</div>
+            </div>
+        </div>
+        
+        <div class="seprate1"></div>
+
+        <div class="field name required">
+            <label class="label" for="message"><span>Message :<span></label>
+            <div class="control">                    
+                <textarea rows="4" cols="50" name="message" id="message" title="message" value="" type="text" class="required-entry input-text wysiwyg-editor" ></textarea>
+            </div>
+        </div>
+        
+        <div class="field image">
+            <label class="label" for="image"><span>Attachment :</span></label>
+            <div class="control">
+                <input name="image" id="image" title="Image" value="" size="30" class="input-file" type="file" notrequired>
+                <label for="fileupload">Note - Allow attachment file extension: .jpg, .jpeg, .png, .pdf, .csv, .doc</label>
+                <div for="title" generated="true" class="blank-error" id="lblError"></div>
+            </div>
+        </div>
+        <p id="GFG_DOWN" style="color:red; display:none; font-size: 20px; font-weight: bold;">Filename is too long; must be 90 characters or less</p> 
+        <div class="customername mb-0">    
+            <label class="label" for="customername"><span></span></label>
+            <div class="control">
+                <input hidden="hidden" name="customername" id="customername" title="customername" value="<?= $customerSession->getCustomer()->getName(); ?>" type="hidden" class="input-text" />
+            </div>
+        </div>
+
+        <div class="status">    
+            <label class="label" for="status"><span></span></label>
+            <div class="control">
+                <input hidden="hidden" name="status" id="status" title="status" value="Pending" type="hidden" class="input-text"/>
+            </div>
+        </div>
+
+        <div class="store_id">    
+            <label class="label" for="store_id"><span></span></label>
+            <div class="control">
+                <input hidden="hidden" name="store_id" id="store_id" title="store_id" value="<?= $storeID; ?>" type="hidden" class="input-text"/>
+            </div>
+        </div>
+        <div class="customer_id">    
+            <label class="label" for="customer_id"><span></span></label>
+            <div class="control">
+                <input hidden="hidden" name="customer_id" id="customer_id" title="customer_id" value="<?= $customerSession->getCustomer()->getId(); ?>" type="hidden" class="input-text"/>
+            </div>
+        </div>
+        <?= $block->getChildHtml('form.additional.info'); ?>
+</fieldset>
+
+    <div class="actions-toolbar twoBtns">
+        <div class="primary">
+            <button id="save-post" type="submit" title="Submit" class="action submit primary">
+                <span>Submit</span>
+            </button>
+        </div>
+    </div>
+        
+</form>
+
+<div class="textRight" style="margin-top: -32px;">
+    <a class="btn1 btnBack" href="<?= $block->getBaseUrl().'ticket/index/formview'; ?>"><?= __('Go Back'); ?></a>
+</div>
+
+<?php } ?>
+<script>
+    require([
+        "jquery",
+        "mage/translate",
+        "mage/adminhtml/events",
+        "mage/adminhtml/wysiwyg/tiny_mce/setup"
+    ], function(jQuery){
+        wysiwygmessage = new wysiwygSetup("message", { 
+            "width":"99%",
+            "height":"200px",
+            "plugins":[{"name":"image"}],
+            "tinymce4":{"toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+            }
+        });
+        wysiwygmessage.setup("exact");
+        jQuery(document).ready(function(){
+            setTimeout(function(){
+                jQuery("#mceu_12").css("display", "none");
+                jQuery("div#mceu_9").css("display", "none");
+                jQuery("#save-post").click(function(){
+                    var editorContent = tinyMCE.get('message').getContent();
+                    if (editorContent == '')
+                    {   
+                        if(jQuery( "#mceu_12-cutom" ).hasClass("mage-cutom")){}else{
+                            jQuery('<div for="mceu_12" generated="true" class="mage-cutom" id="mceu_12-cutom" style="display: block !important; color: #e02b27; font-size: 1.2rem;">This is a required field.</div>').insertAfter("#mceu_13");
+                            jQuery("div#mceu_13").css("border-color", "red");
+                            return false;
+                        }
+                        return false;
+                    }else{
+                        jQuery("#mceu_12-cutom").remove();
+                        jQuery("div#mceu_13").css("border-color", "");
+                        return true;
+                    }                   
+                });
+            },500);
+        }); 
+    });
+</script>

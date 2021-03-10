@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Jhkinfotech Team
+ * @copyright Copyright (c) 2020 Jhkinfotech (https://www.Jhkinfotech.com)
+ * @package Jhkinfotech_Ticket
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="ticket_general_jhkinfotech_ticket_front_create"
+                label="Jhkinfotech Ticket Ticket Create"
+                file="jhkinfotech_ticket_front_create.html"
+                type="html"
+                module="Jhkinfotech_Ticket"
+                area="frontend"
+    />
+    <template id="ticket_general_jhkinfotech_ticket_front_reply"
+              label="Jhkinfotech Ticket Reply Frontend"
+              file="jhkinfotech_ticket_reply_front.html"
+              type="html"
+              module="Jhkinfotech_Ticket"
+              area="frontend"
+    />
+    <template id="ticket_general_jhkinfotech_ticket_reply_admin"
+              label="Jhkinfotech Ticket Reply Admin"
+              file="jhkinfotech_ticket_reply_admin.html"
+              type="html"
+              module="Jhkinfotech_Ticket"
+              area="frontend"
+    />  
+    <template id="ticket_general_jhkinfotech_ticket_close"
+              label="Jhkinfotech Ticket Close"
+              file="jhkinfotech_ticket_close.html"
+              type="html"
+              module="Jhkinfotech_Ticket"
+              area="frontend"
+    />  
+</config>

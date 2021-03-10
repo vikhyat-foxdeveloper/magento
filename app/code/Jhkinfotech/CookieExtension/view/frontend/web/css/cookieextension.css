@@ -1,0 +1,159 @@
+/* ----- Neel Style ---- */
+.v-badge{ position: fixed; font: 13px/20px Arial;color: rgb(255, 255, 255); cursor: pointer; z-index: 999; background: rgb(17, 17, 17) none repeat scroll 0% 0%; padding: 6px 11px 2px; box-shadow: rgb(0, 0, 0) 0px 0px 3px; left: 10px; bottom: 0px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
+
+.titlecookie
+{
+	font-size: 20px;
+	padding-bottom: 5px;
+}
+/*---- Bar View ----*/
+.barView {
+	padding: 15px 20px;
+	box-shadow: 0px -6px 15px rgba(0, 0, 0, 0.4);
+	align-items: center !important;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	z-index:10;
+}
+.barView.v-bottom
+{
+	bottom:0px;
+}
+.barView.v-top
+{
+	top:0px;
+}
+.barView .codata {
+	-ms-flex: 1;
+	flex: 1;
+	padding-right: 50px;
+	line-height: 1.2;
+	font-size: 15px;
+}
+.barView .codata a {
+	text-decoration: underline;
+	color: #ffffff;
+}
+.barView .btnsMain {
+	display: -ms-flexbox !important;
+	display: flex !important;
+	-ms-flex-align: center !important;
+	align-items: center !important;
+}
+.barView .agreeBtn {
+	background-color: #8bc555;
+	border-radius: 2px;
+	padding: 12px 25px;
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+	text-transform: uppercase;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.barView .closeBtn{ background-color: rgba(0, 0, 0, 0.5); border-radius: 2px; padding: 12px 25px; display: block; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; text-decoration: none; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); margin-left: 10px; }
+	/*---- Bar View End ----*/
+
+/*---- Bar View End ----*/
+
+@media (max-width: 991px) {
+/*---- Bar View ----*/
+.barView {
+	padding: 18px 20px;
+}
+.barView .codata {
+	padding-right: 20px;
+}
+.barView .agreeBtn, .barView .closeBtn{ padding: 11px 20px; }
+/*---- Bar View End ----*/
+}
+
+@media (max-width: 767px) {
+/*---- Bar View ----*/
+.barView {
+	display: table;
+	flex-direction: column;
+}
+.barView .codata {
+	padding: 0px 0px 15px 0px;
+}
+/*---- Bar View End ----*/
+}
+
+@media (max-width: 575px) {
+/*---- Bar View ----*/
+.barView {
+	padding: 15px;
+}
+.barView .btnsMain{ display: table !important; width: 100%; text-align: center; }
+.barView .agreeBtn { font-size: 13px; padding: 10px 12px; margin: 0px 0px 8px 0px; }
+.barView .closeBtn{ font-size: 13px; padding: 10px 12px; margin: 0px; }
+
+/*---- Bar View End ----*/
+
+}
+
+/*---- Box View ----*/
+	.boxView{ box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.4); border-radius: 3px;
+		position: fixed;  max-width: 500px; width: 100%; margin: 25px; z-index:10;
+	}
+	.boxView.v-center
+	{
+		top: 40%; 
+		left: 0%;
+		right: 0%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.boxView.v-top-right
+	{
+		right:0px;
+	}
+	.boxView.v-bottom-right
+	{
+		right:0px;
+		bottom:0px;
+	}
+	.boxView.v-top-left
+	{
+		left:0px;
+		top:0px;
+	}
+	.boxView.v-bottom-left
+	{
+		left:0px;
+		bottom:0px;
+	}
+	/* .barView.nodisplay
+	{
+		display: none !important;
+	}	 */
+
+	.boxView .codata{ padding: 0px 0px 20px 0px; line-height: 1.5; font-size: 16px; }
+	.boxView .codata a{ text-decoration: underline; color: #ffffff; }
+	.boxView .btnsMain{ display: -ms-flexbox !important; display: flex !important; -ms-flex-align: center !important; align-items: center !important; }
+	.boxView .agreeBtn{ background-color: #8bc555; border-radius: 2px; padding: 12px 25px; display: block; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); }
+	.boxView .closeBtn{ background-color: rgba(0, 0, 0, 0.5); border-radius: 2px; padding: 12px 25px; display: block; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); margin-left: 10px; }
+
+	.boxView .contain{ padding: 30px; }
+
+	/*---- Box View End ----*/
+
+	@media (max-width: 991px) {
+		.boxView{ max-width: 440px; }
+		.boxView .contain { padding: 20px; }
+		.boxView .codata { padding: 0px 0px 15px 0px; line-height: 1.4; font-size: 15px; }
+		.boxView .agreeBtn, .boxView .closeBtn { padding: 12px 20px; font-size: 15px; }
+	}
+
+	@media (max-width: 575px) {
+		.boxView { max-width: 100%; width: auto; margin: 10px; box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.4); }
+		.boxView .contain { padding: 15px; }
+		.boxView .codata { padding: 0px 0px 12px 0px; }
+		.boxView .btnsMain{ display: table !important; width: 100%; text-align: center; }
+		.boxView .agreeBtn { font-size: 13px; padding: 10px 12px; margin: 0px 0px 8px 0px; }
+		.boxView .closeBtn{ font-size: 13px; padding: 10px 12px; margin: 0px; }
+	}

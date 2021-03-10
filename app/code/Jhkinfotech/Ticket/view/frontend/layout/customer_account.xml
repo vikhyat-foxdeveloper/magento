@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2020 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   <body>
+      <referenceBlock name="customer_account_navigation">
+         <block class="Jhkinfotech\Ticket\Block\Menublock" name="support-ticket">
+            <arguments>
+               <argument name="path" xsi:type="string">ticket/index/formview</argument>
+               <argument name="label" xsi:type="helper" helper="Jhkinfotech\Ticket\Helper\Data::getLabel"  />               
+            </arguments>
+         </block>
+      </referenceBlock>
+   </body>
+</page>                           

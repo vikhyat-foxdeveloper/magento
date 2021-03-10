@@ -1,0 +1,244 @@
+<?php
+/**
+ * Copyright © 2020 jhkinfotechcommerce. All rights reserved.
+ */
+?>
+<?php
+    $singleData = $this->getSingleData();
+?>     
+<div class="main-content-admin-view">
+<div class="myTitleOne">
+    <span class="title"><?= /* @escapeNotVerified */  __('Ticket Information') ?></span>
+</div>
+<?php
+if ($singleData->getProductsku() == '') {
+    $getproductsku = '-';
+} else {
+    $getproductsku = $singleData->getProductsku();
+}
+?>
+<section class="admin__page-section request-view-information">
+        
+    <div class="admin__page-section-content">
+        <table class="admin__table-secondary request-information-table">           
+                <tr>
+                    <th><?= __('Subject') ?></th>
+                    <td><?= /* @escapeNotVerified */  $block->escapeHtml($singleData->getTitle()) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Customer Email') ?></th>
+                    <td><?= /* @escapeNotVerified */  $block->escapeHtml($singleData->getCustomeremail()) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Customer Name') ?></th>
+                    <td><?= /* @escapeNotVerified */  $block->escapeHtml($singleData->getCustomername()) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Sku/Order Number') ?></th>
+                    <td><?= /* @escapeNotVerified */  $block->escapeHtml($getproductsku) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Creation Time') ?></th>
+                    <td><?= /* @escapeNotVerified */  date('M d,Y H:i:s A', strtotime($singleData->getCreated_at())) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Last Messages Time') ?></th>
+                    <td><?= /* @escapeNotVerified */  date('M d,Y H:i:s A', strtotime($singleData->getUpdated_at())) ?></td>
+                </tr>
+        </table>
+    </div>
+</section>
+<?php if ($singleData->getStatus() != 'Closed') {?>
+<div class="reply-content-admin">
+            <div class="request-answer-block">
+            <form class="a-form" action="<?= $this->getUrl('ticket/post/reply') ?>" id="admin_reply" method="post" enctype='multipart/form-data'>
+                <fieldset class="fieldset myFildset">       
+                    <div class="field name required">
+                        <input name="form_key" type="hidden" value="<?= $block->getFormKey() ?>" />
+                    </div>                           
+                    <div class="field name required">
+                         <label class="label labelAll" for="answer"><span>Message :</span></label>
+                        <div class="control">                    
+                            <textarea rows="4" cols="50" name="answer" id="custom_wysiwyg" title="answer" value="" type="text" class="input-text"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field name required formgroup">
+                         <label class="label labelAll" for="image"><span>Attechment file :</span></label>
+                        <div class="control">                    
+                            <input name="image" id="image" title="Image" value="" class="input-file" type="file"  >
+                        </div>
+                    </div>
+
+                    <div class="field name required formgroup">
+                        <label class="label" for="post_id"><span></span></label>
+                        <div class="control">
+                            <input name="post_id" id="post_id" title="post_id" value="<?=($singleData->getPost_id()) ?>" hidden="hidden" type="text" class="input-text" />
+                        </div>
+                    </div>
+                    
+                    <div class="field name required formgroup">
+                        <label class="label" for="answer_user"><span></span></label>
+                        <div class="control">
+                            <input name="answer_user" id="answer_user" title="answer_user" value="<?= "admin" ?>" hidden="hidden" type="text" class="input-text" />
+                        </div>
+                    </div>                    
+                </fieldset>
+                <div class="actions-toolbar postReplyBtn">
+                    <div class="primary">
+                        <button type="submit" id="save-post" title="Submit" class="action submit primary">
+                            <span>Post Reply</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+<?php } ?>
+<?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $model=$objectManager->create('Jhkinfotech\Ticket\Model\Reply');
+    $datacollection=$model->getCollection()->setOrder('reply_id', 'DESC'); ?>
+    <ul class="messages">
+    <?php
+    foreach ($datacollection as $data1):
+        if ($data1->getpost_id() == $singleData->getPost_id()): ?>
+            <?php if ($data1->getanswer_user() == 'admin') { ?>
+            <li class="vg-helpdesk-view__thread-message admin-reply">
+                <div class="message-header">
+                    <span class="name xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-user-icon.png') ?>" /><?= $data1->getanswer_user() ?></span>
+                    <span class="date xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-date-icon.png') ?>" /><?= $data1->getCreated_at() ?></span>
+                </div>
+                <div class="content"><?= $data1->getanswer() ?>
+                <?php
+                if ($data1->getimage() != '') { ?>
+                <div>
+                <a title="<?= $data1->getimage() ?>" download="" href="<?= $this->getBaseUrl().'pub/media/'.$data1->getimage(); ?>" target="_blank">Check Attached file</a></div>
+                <?php } ?>
+                </div>
+            </li>
+        <?php } ?>
+            <?php if ($data1->getanswer_user() != 'admin') { ?>
+            <li class="vg-helpdesk-view__thread-message admin-internal">
+                <div class="message-header">
+                    <span class="name xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-user-icon.png') ?>" /><?= $data1->getanswer_user() ?></span>
+                    <span class="date xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-date-icon.png') ?>" /><?= $data1->getCreated_at() ?></span>
+                </div>
+                <div class="content"><?= $data1->getanswer() ?>
+                <?php
+                if ($data1->getimage() != '') { ?>
+                <div>
+                <a title="<?= $data1->getimage() ?>" download="" href="<?= $this->getBaseUrl().'pub/media/'.$data1->getimage();  ?>" target="_blank">Check Attached file</a></div>
+                <?php } ?>
+                </div>
+            </li>   
+        <?php } ?>           
+    <?php endif; ?>
+    <?php endforeach; ?>
+    <li class="vg-helpdesk-view__thread-message admin-internal">
+            <div class="message-header"> 
+                <span class="name xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-user-icon.png') ?>" /><?= $singleData->getCustomername() ?></span>
+                <span class="date xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-date-icon.png') ?>" /><?= $singleData->getCreated_at() ?></span> 
+            </div>
+            <div class="content"><?= $singleData->getMessage() ?>
+            <?php
+            if ($singleData->getImage() != '') { ?>
+                <div>
+                <a title="<?= $singleData->getImage() ?>" download="" href="<?= $this->getBaseUrl().'pub/media/'.$singleData->getImage() ?>" target="_blank">Check Attached file</a></div>
+            <?php } ?>
+            </div>
+    </li>  
+    </ul> 
+</div>
+</div>
+<style>
+.main-content-admin-view{ display: flex; flex-wrap: wrap; }
+.myTitleOne{ -webkit-box-flex: 0; -ms-flex: 0 0 100%; flex: 0 0 100%; max-width: 100%; font-size: 20px; border-bottom: solid 1px #cccccc; margin-bottom: 20px; padding-bottom: 10px; }
+.request-view-information{ -webkit-box-flex: 0; -ms-flex: 0 0 40%; flex: 0 0 40%; max-width: 40%; }
+.reply-content-admin{ -webkit-box-flex: 0; -ms-flex: 0 0 58%; flex: 0 0 58%; max-width: 58%; margin-left: auto; }
+#form-search {
+    display: none;
+}
+.admin-reply{ border: .1rem solid #ccd6c7; border-radius: 3px; background: #D5EDF7; border-left: 3px solid #D5EDF7; list-style: none; padding: 15px; margin: 10px 0px; }
+.admin-internal{ border: 1px solid #ded9cb; border-radius: 2px; background: #eeeeee; border-left: 3px solid #eeeee; list-style: none; padding: 15px; margin: 10px 0px; }
+.admin-reply .message-header, .admin-internal .message-header{ display: flex; width: 100%; justify-content: space-between; align-items: center; padding-bottom: 15px; font-weight: bold; }
+.admin-reply .message-header .date, .admin-internal .message-header .date{ font-size: 12px; }
+
+.admin-reply .content p, .admin-internal .content p{ line-height: 1.5; }
+
+.myFildset{ border: 0px !important; padding: 0px; }
+.myFildset .formgroup{ margin-bottom: 15px; margin-top: 10px; }
+.postReplyBtn{ margin-top: 5px; margin-bottom: 30px; }
+
+.request-information-table {  }
+.request-information-table tbody tr th{ width: 30%; font-weight: bold; }
+
+.labelAll{ width: 100%; font-weight: bold; padding-bottom: 10px; display: block; }
+
+</style>
+<script type="text/javascript">
+require([
+    "jquery", 
+    "mage/translate", 
+    "mage/adminhtml/events", 
+    "mage/adminhtml/wysiwyg/tiny_mce/setup"
+    ], function(jQuery){
+        wysiwyganswer = new wysiwygSetup("custom_wysiwyg", {
+            "width":"99%",
+            "height":"200px",
+            "plugins":[{"name":"image"}],
+            "tinymce4":{"toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+            }
+        });
+        wysiwyganswer.setup("exact");
+        jQuery(document).ready(function(){            
+            setTimeout(function(){
+                jQuery("div#mceu_12").css("display", "none");
+                jQuery("#save-post").click(function(e){
+                    var editorContent = tinyMCE.get('custom_wysiwyg').getContent();
+                    if (editorContent == '')
+                    {
+                        if(jQuery( "#mceu_12-cutom" ).hasClass("mage-cutom")){ e.preventDefault();}else{                    
+                        jQuery('<div for="mceu_12" generated="true" class="mage-cutom" id="mceu_12-cutom" style="display: block !important; color: #e02b27; font-size: 1.2rem;">This is a required field.</div>').insertAfter("#mceu_13");                        
+                        jQuery("div#mceu_13").css("border-color", "red");                        
+                        e.preventDefault();
+                        }
+                    }                   
+                });
+            },1000);
+        });        
+});
+</script>
+<script type="text/x-magento-init">
+        {
+            "*": {
+                "ticket": {                    
+                    "ajax_url" : "<?php echo $block->getUrl("ticket/result/notifications") ?>"
+                }
+            }
+        }
+</script>
+<!-- <script>
+    require([
+     "js/jhkinfotech_file"
+    ], function () {
+        window.notification = '<?php //echo $block->getUrl("ticket/result/notifications"); ?>';
+    });
+</script> -->
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "yourWidget": {
+                    "dataUrl": "<?php echo $block->getUrl("ticket/result/notifications"); ?>"
+                }
+            }
+        }
+    }
+}
+</script>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$extensionUser = $objectManager->get('Magento\Backend\Model\Auth\Session')->getUser()->getEmail();
+echo $extensionUser;
+?>

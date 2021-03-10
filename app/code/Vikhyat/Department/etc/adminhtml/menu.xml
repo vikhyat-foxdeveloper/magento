@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Vikhyat_Department::department" title="Manage Departments" module="Vikhyat_Department" sortOrder="70" parent="Magento_Backend::content" action="vikhyat/department" resource="Vikhyat_Department::department"/>
+    </menu>
+</config>

@@ -1,0 +1,28 @@
+.submenu .column:only-of-type .submenu-group-title,
+.level-0>.submenu>ul>.level-1:only-of-type>.submenu-group-title {
+    display: block !important;
+}
+
+.item-viewticket {
+    position: relative;
+}
+
+#jhkinfotech-ticket-alert.notifications-action {
+    padding: 0px;
+    position: absolute;
+    right: 15px;
+    top: 12px;
+}
+
+#jhkinfotech-ticket-alert.notifications-action .notifications-counter {
+    position: absolute;
+    right: -11px;
+    top: 5px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    display: block;
+    left: auto;
+}
+.xs-twoicon{ display: flex; align-items: center; }
+.xs-twoicon img{ max-width: 16px; margin-right: 8px; }

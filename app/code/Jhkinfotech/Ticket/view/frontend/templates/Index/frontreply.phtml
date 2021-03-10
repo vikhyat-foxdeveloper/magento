@@ -1,0 +1,237 @@
+<?php
+/**
+ * Copyright © 2020 jhkinfotechcommerce. All rights reserved.
+ */
+?>
+<?php
+$singleData = $block->getSingleData();
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+
+if ($customerSession->isLoggedIn()) {
+    $customerSession->getCustomerId();
+    $customerSession->getCustomerGroupId();
+    $customerSession->getCustomer();
+    $customerSession->getCustomerData();
+   
+    if ($singleData->getProductsku() == '') {
+        $getproductsku = '-';
+    } else {
+        $getproductsku = $singleData->getProductsku();
+    }
+    ?>
+
+
+<div class="textRight pb-2">
+    <a class="btn1 btnBack" href="<?= /* @noEscape */ $block->getBaseUrl().'ticket/index/formview' ?>"><?= __('Go Back') ?></a>
+</div>
+        <table class="jhkinfotech-ticket-myTable">
+            <tbody>          
+                <tr>
+                    <th><?= __('Subject') ?></th>
+                    <td><?= /* @escapeNotVerified */ $block->escapeHtml($singleData->getTitle()) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Customer Email') ?></th>
+                    <td><?= /* @escapeNotVerified */  $block->escapeHtml($singleData->getCustomeremail()) ?></td>
+                </tr>
+                <?php if ($singleData->getCcrecipients() != ''):?>
+                <tr>
+                    <th><?= __('Ccrecipients') ?></th>
+                    <td><?= /* @escapeNotVerified */  $block->escapeHtml($singleData->getCcrecipients()) ?></td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <th><?= __('Sku/Order Number') ?></th>
+                    <td><?= /* @escapeNotVerified */  $block->escapeHtml($getproductsku) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Status') ?></th>
+                    <td class="jhkinfotech">
+                    <span class="jhkinfotech-<?= $block->escapeHtml($singleData->getStatus()) ?>">
+                    <?= /* @escapeNotVerified */  $block->escapeHtml($singleData->getStatus()) ?></span></td>
+                </tr>
+                <tr>
+                    <th><?= __('Creation Time') ?></th>
+                    <td><?= /* @escapeNotVerified */ date('M d,Y H:i:s A', strtotime($singleData->getCreated_at())) ?></td>
+                </tr>
+            </tbody>            
+        </table>
+        <br>
+    <?php if ($singleData->getStatus() != 'Closed') {?>
+<form class="form ticket answer" action="<?= /* @noEscape */ $block->getBaseUrl().'ticket/Index/Frontticketanswer'; ?>" id="ticket-form"  method="post" enctype='multipart/form-data'
+data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields'); ?>" data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset mb-0">
+
+            <div class="field name required">
+                <label class="label myLabelLine" for="answer"><span>Message :</span></label>
+                    <div class="control required">                    
+                        <textarea rows="4" cols="10" name="answer" id="answer" title="answer" value="" type="text" class="input-text" required="required" ></textarea>
+                    </div>
+            </div>    
+            <div class="field file  mb-1">
+                <label class="label" for="answer"><span>Attechment file :</span></label>
+                    <div class="control required">                    
+                        <input name="image" id="image" title="Image" value="" class="input-file" type="file" >
+                        <label for="fileupload">Note - Allow attachment file extension: .jpg, .jpeg, .png, .pdf, .csv, .doc</label>
+                        <div for="title" generated="true" class="blank-error" id="lblError"></div>
+                    </div>
+            </div>                
+            <div class="field name mb-0">    
+                    <label class="label" for="post_id"><span></span></label>
+                    <div class="control">
+                        <input hidden="hidden" name="post_id" id="post_id" title="post_id" value="<?= $singleData->getPost_id(); ?>" type="hidden" class="input-text" />
+                    </div>
+            </div>
+            <div class="name">    
+                    <label class="label" for="answer_user"><span></span></label>
+                    <div class="control">
+                        <input hidden="hidden" name="answer_user" id="answer_user" title="answer_user" value="<?= $customerSession->getCustomer()->getName(); ?>" type="hidden" class="input-text" />
+                    </div>
+            </div>
+            <div class="customer_id">    
+                    <label class="label" for="customer_id"><span></span></label>
+                    <div class="control">
+                        <input hidden="hidden" name="customer_id" id="customer_id" title="customer_id" value="<?= $customerSession->getCustomer()->getId(); ?>" type="hidden" class="input-text" />
+                    </div>
+            </div>    
+
+        </fieldset>
+        <div class="actions-toolbar textRight">
+            <div class="primary floatNone">
+                    <button type="submit" title="Submit" id="save-post" class="action submit primary mr-0">
+                        <span>Post Reply</span>
+                    </button>
+            </div>
+        </div>
+</form>
+    <?php } else { ?>
+
+    <br><h3> This ticket is Closed. Click <a href="<?= /* @noEscape */ $block->getBaseUrl().'ticket/index/index'; ?>" style="color: red;"> here </a> to create a new one</h3><br>
+
+        <?php  } ?>
+<br>
+      <?php
+        $model=$objectManager->create('Jhkinfotech\Ticket\Model\Reply');
+        $datacollection=$model->getCollection()->setOrder('reply_id', 'DESC'); ?>
+    
+    <?php foreach ($datacollection as $data1):
+        if ($data1->getpost_id() == $singleData->getPost_id()):
+            //if($data1->getRead_status() == 'unread'){  echo "hi".$data1->getRead_status();  } ?>
+    
+            <?php if ($data1->getanswer_user() != 'admin') { ?>
+    <div class="jhkinfotech-ticket-view-thread-message-box chatCustomer">
+        <div class="chatCustomerBox">       
+            <div class="jhkinfotech-ticket-chatHeader">
+                <span class="bold xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-user-icon.png'); ?>" />
+                <?= $data1->getanswer_user(); ?></span>                
+                <span class="bold date xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-date-icon.png'); ?>" /><?= date('M d,Y H:i:s A', strtotime($data1->getCreated_at())); ?></span>                   
+            </div>
+            <div class="jhkinfotech-ticket-view-thread-message-box-body">
+                <p> <?= $data1->getanswer() ?>
+                <?php
+                if ($data1->getimage() != '') {
+                        $stringdata = $data1->getimage();
+                        $explodeddata = explode('/', $stringdata);
+                        $str1 = rtrim($stringdata, end($explodeddata));
+                    ?>
+                    <div>
+                    <a title="<?= end($explodeddata) ?>" class="Attechment-file"
+                    href="<?= $block->getBaseUrl().'ticket/index/Download'.'?reply_id='.$data1->getreply_id().'&imgpath='.$str1.'&filename='.end($explodeddata) ?>" onclick="this.target='_blank'" imgpath="<?= $str1 ?>" >Check Attached file</a>
+                    </div>
+                <?php } ?>
+                </p>
+            </div>
+        </div>
+    </div>
+    <?php } else { ?>
+
+    <div class="jhkinfotech-ticket-view-thread-message-box chatAdmin">
+        <div class="chatAdminBox">
+            <div class="jhkinfotech-ticket-chatHeader">
+                <span class="bold xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-user-icon.png'); ?>" /><?= $data1->getanswer_user(); ?></span>
+                <span class="bold date xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-date-icon.png'); ?>" /><?= date('M d,Y H:i:s A', strtotime($data1->getCreated_at())); ?></span>
+            </div>
+            <div class="jhkinfotech-ticket-view-thread-message-box-body">
+                <p><?= $data1->getanswer() ?>
+                <?php
+                if ($data1->getimage() != '') {
+                    $stringdata = $data1->getimage();
+                        $explodeddata = explode('/', $stringdata);
+                        $str2 = rtrim($stringdata, end($explodeddata));
+                    ?>
+                    <div>
+                    <a title="<?= end($explodeddata) ?>" class="Attechment-file" 
+                    href="<?= $block->getBaseUrl().'ticket/index/Download'.'?reply_id='.$data1->getreply_id().'&imgpath='.$str2.'&filename='.end($explodeddata) ?>" onclick="this.target='_blank'" imgpath="<?= $str2 ?>" >Check Attached file</a>
+                    </div>
+                <?php } ?>
+                </p>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    <div class="jhkinfotech-ticket-view-thread-message-box chatCustomer">
+        <div class="chatCustomerBox">
+            <div class="jhkinfotech-ticket-chatHeader">
+                <span class="bold xs-twoicon"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-user-icon.png'); ?>" /><?= $customerSession->getCustomer()->getName(); ?></span>
+                <span class="bold xs-twoicon date"><img src="<?= $this->getViewFileUrl('Jhkinfotech_Ticket::images/xs-date-icon.png'); ?>" /><?= date('M d,Y H:i:s A', strtotime($singleData->getCreated_at())); ?></span>  
+            </div>
+            <div class="jhkinfotech-ticket-view-thread-message-box-body">
+                <p><?= $singleData->getMessage(); ?>
+                <?php
+                if ($singleData->getImage() != '') {
+                        $string = $singleData->getimage();
+                        $exploded = explode('/', $string);                       
+                        $str = rtrim($string, end($exploded));
+                        
+                    ?>
+                    <div>
+                    <a title="<?= end($exploded) ?>" class="Attechment-file" 
+                    href="<?= $block->getBaseUrl().'ticket/index/Download'.'?post_id='.$singleData->getpost_id().'&imgpath='.$str.'&filename='.end($exploded) ?>" onclick="this.target='_blank'" imgpath="<?= $str ?>" >Check Attached file</a>                   
+                    </div>
+                <?php } ?>
+                </p>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+<script type="text/javascript">
+require([
+    "jquery",
+    "mage/translate",
+    "mage/adminhtml/events", 
+    "mage/adminhtml/wysiwyg/tiny_mce/setup"
+    ], function(jQuery){
+        wysiwyganswer = new wysiwygSetup("answer", {
+            "width":"99%",
+            "height":"200px",
+            "plugins":[{"name":"image"}],
+            "tinymce4":{"toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+            }
+        });
+        wysiwyganswer.setup("exact");
+        jQuery(document).ready(function(){  
+            setTimeout(function(){
+                jQuery("div#mceu_12").css("display", "none");
+                jQuery("div#mceu_9").css("display", "none");
+                jQuery("#save-post").click(function(e){
+                    var editorContent = tinyMCE.get('answer').getContent();
+                    if (editorContent == '')
+                    {
+                        if(jQuery( "#mceu_12-cutom" ).hasClass("mage-cutom")){ e.preventDefault();}else{                    
+                        jQuery('<div for="mceu_12" generated="true" class="mage-cutom" id="mceu_12-cutom" style="display: block !important; color: #e02b27; font-size: 1.2rem;">This is a required field.</div>').insertAfter("#mceu_13");                        
+                        jQuery("div#mceu_13").css("border-color", "red");                        
+                        e.preventDefault();
+                        }
+                    }else{
+                        jQuery("#mceu_12-cutom").remove();
+                        jQuery("div#mceu_13").css("border-color", "");
+                    }
+                });
+            },1000);
+        });
+    });
+</script>   

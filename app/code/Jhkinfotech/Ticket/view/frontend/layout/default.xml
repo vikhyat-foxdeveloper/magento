@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Jhkinfotech Team
+ * @copyright Copyright (c) 2018 Jhkinfotech (https://www.jhkinfotech.com)
+ * @package Jhkinfotech_Ticket
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+        <head>            
+            <css src="Jhkinfotech_Ticket::css/jhkinfotechcorecs.css"/>
+            <script src="Jhkinfotech_Ticket::js/ticket-module.js"/>
+        </head>
+    <body/>
+</page>

@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © 2020 jhkinfotechcommerce. All rights reserved.
+ */
+
+?>
+<script>
+    requirejs(['jquery', 'ticket'], function($){
+        $(document).ready(function(){                        
+            setInterval(function() {
+                var urlajax = '<?= $block->getUrl("ticket/result/notifications") ?>';
+                var param = 'ajax=1';
+                $.ajax({
+                    url: urlajax,
+                    type: "POST",
+                    data: { param:param },
+                    dataType: 'json',
+                    success: function(data) {
+                    $("#jhkinfotech-ticket-alert").remove();
+                    $('.item-viewticket').find('a').append(data);
+                    $('#jhkinfotech-ticket-alert').css("color", "white");                    
+                    }
+                })
+                .done(function(response){
+                    // console.log(response);
+                    })
+                .fail(function(){
+                    // console.log('fail');
+                });
+            }, 4000);            
+        });
+    });
+</script>
